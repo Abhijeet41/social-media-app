@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/imgPostImage"
+        android:layout_width="@dimen/_120mdp"
+        android:layout_height="@dimen/_85mdp"
+        android:layout_marginStart="16dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/child_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:riv_corner_radius="10dip"
+        app:riv_mutate_background="true"
+        tools:ignore="MissingConstraints" />
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgProfile"
+        android:layout_width="@dimen/_30mdp"
+        android:layout_height="@dimen/_30mdp"
+        android:layout_margin="5dp"
+        android:src="@drawable/profile_user"
+        app:civ_border_color="@color/white"
+        app:civ_border_width="3dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgStoryType"
+        app:layout_constraintStart_toStartOf="@+id/imgPostImage"
+        app:layout_constraintTop_toTopOf="@+id/imgPostImage" />
+
+    <ImageView
+        android:id="@+id/imgStoryType"
+        android:layout_width="@dimen/_30mdp"
+        android:layout_height="@dimen/_20mdp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="@+id/imgPostImage"
+        app:layout_constraintTop_toTopOf="@+id/imgPostImage"
+        app:srcCompat="@drawable/ic_live" />
+
+    <TextView
+        android:id="@+id/txtName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="8dp"
+        android:text="M.Amin"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgPostImage"
+        app:layout_constraintStart_toStartOf="@+id/imgProfile" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

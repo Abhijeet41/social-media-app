@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgProfile"
+        android:layout_width="@dimen/_40mdp"
+        android:layout_height="@dimen/_40mdp"
+        android:layout_margin="5dp"
+        android:src="@drawable/profile_user"
+        app:civ_border_color="@color/white"
+        app:civ_border_width="3dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Alica Addms"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
+        app:layout_constraintStart_toEndOf="@+id/imgProfile"
+        app:layout_constraintTop_toTopOf="@+id/imgProfile"
+        app:layout_constraintVertical_bias="0.23000002" />
+
+    <TextView
+        android:id="@+id/txtAbout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Travler,Life Lover"
+        app:layout_constraintStart_toStartOf="@+id/txtUserName"
+        app:layout_constraintTop_toBottomOf="@+id/txtUserName" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imgProfile"
+        app:srcCompat="@drawable/ic_more_24" />
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/imgPostImage"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_150mdp"
+        android:layout_marginTop="16dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/child_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imgProfile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgProfile"
+        app:riv_corner_radius="10dip"
+        app:riv_mutate_background="true"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/imgSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imgPostImage"
+        app:srcCompat="@drawable/ic_outline_bookmark_border_24" />
+
+    <TextView
+        android:id="@+id/txtLike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/ic_black_favorite_border_24"
+        android:drawablePadding="10dp"
+        android:gravity="center"
+        android:text="354"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgPostImage" />
+
+    <TextView
+        android:id="@+id/txtComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:drawableLeft="@drawable/ic_chat_24"
+        android:drawablePadding="10dp"
+        android:gravity="center"
+        android:text="54"
+        app:layout_constraintStart_toEndOf="@+id/txtLike"
+        app:layout_constraintTop_toTopOf="@+id/txtLike" />
+
+    <TextView
+        android:id="@+id/txtShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:drawableLeft="@drawable/share"
+        android:drawablePadding="10dp"
+        android:gravity="center"
+        android:text="54"
+        app:layout_constraintStart_toEndOf="@+id/txtComment"
+        app:layout_constraintTop_toTopOf="@+id/txtLike" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
