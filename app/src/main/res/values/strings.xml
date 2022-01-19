@@ -15,4 +15,7 @@
     <string name="photos">Photos</string>
     <string name="profile_description">Emma Charlotte Duerre Watson is an English actress and activist. She has gained recognition for her roles in both blockbusters and independent films,</string>
     <string name="follow">Follow</string>
+    <string name="what_s_on_your_mind">What\'s on your mind?</string>
+
+    <string name="api_key">AIzaSyCzYPrkY76kdrfIPYkm2KPtoyK-CFQl-FM</string>
 </resources>

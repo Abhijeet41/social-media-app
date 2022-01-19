@@ -16,5 +16,7 @@
 
     </style>
 
-
+    <style name="Theme.MyFancyTheme" parent="android:Theme.Holo">
+        <item name="colorControlNormal">@color/white</item>
+    </style>
 </resources>

@@ -1,5 +1,7 @@
 package com.abhi41.socialmediaapp.fragments;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -17,12 +19,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.abhi41.socialmediaapp.R;
 import com.abhi41.socialmediaapp.adapter.FollowersAdapter;
 import com.abhi41.socialmediaapp.databinding.FragmentProfileBinding;
 import com.abhi41.socialmediaapp.model.FollowModel;
 import com.abhi41.socialmediaapp.model.User;
+import com.abhi41.socialmediaapp.untils.PrintMessage;
 import com.bumptech.glide.Glide;
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -32,19 +35,24 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class ProfileFragment extends Fragment {
+    private static final String TAG = "ProfileFragment";
     private FragmentProfileBinding binding;
     private List<FollowModel> friendList;
-    ActivityResultLauncher<Intent> activityResultCoverImage,activityResultProfileImage;
+    ActivityResultLauncher<Intent> activityResultCoverImage, activityResultProfileImage, activityResultCrop;
 
+    FollowersAdapter followersAdapter;
     private FirebaseAuth auth;
     private FirebaseStorage storage;
     private FirebaseDatabase database;
+    private Uri imgUri;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -80,7 +88,6 @@ public class ProfileFragment extends Fragment {
     }
 
 
-
     private void getClickListener() {
         binding.imgChangeCoverImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +115,27 @@ public class ProfileFragment extends Fragment {
         friendList.add(new FollowModel(R.drawable.angelina));
         friendList.add(new FollowModel(R.drawable.kristen));*/
 
-        FollowersAdapter followersAdapter = new FollowersAdapter(friendList, getContext());
+        database.getReference().child("Users")
+                .child(auth.getUid())
+                .child("followers").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                friendList.clear();
+                for (DataSnapshot data : snapshot.getChildren()) {
+                    FollowModel followModel = data.getValue(FollowModel.class);
+                    friendList.add(followModel);
+                    followersAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                PrintMessage.printLogD(TAG, error.getMessage());
+            }
+        });
+
+
+        followersAdapter = new FollowersAdapter(friendList, getContext());
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         binding.friendRv.setLayoutManager(manager);
         binding.friendRv.setAdapter(followersAdapter);
@@ -129,36 +156,24 @@ public class ProfileFragment extends Fragment {
         activityResultCoverImage = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
+                    if (result.getResultCode() == RESULT_OK) {
                         // There are no request codes
                         if (result.getData() != null) {
                             Uri uri = result.getData().getData();
-                            binding.imgCover.setImageURI(uri);
+                            imgUri = uri;
+                            CropImage.activity(uri)
+                                    .setGuidelines(CropImageView.Guidelines.ON)
+                                    .start(getContext(), ProfileFragment.this);
 
-                            //store image in firebase
-                            final StorageReference reference = storage
-                                    .getReference()
-                                    .child("cover_photo")
-                                    .child(FirebaseAuth.getInstance().getUid());
-
-                            reference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                 //   PrintMessage.printToastMessage(getContext(), "Cover Photo Saved");
-                                    reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                        @Override
-                                        public void onSuccess(Uri uri) {
-                                            if (uri != null) {
-                                                database.getReference()
-                                                        .child("Users")
-                                                        .child(auth.getUid())
-                                                        .child("coverPhoto")
-                                                        .setValue(uri.toString());
-                                            }
-                                        }
-                                    });
-                                }
-                            });
+                        }
+                    } else if (result.getResultCode() == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+                        CropImage.ActivityResult cropResult = CropImage.getActivityResult(result.getData());
+                        if (result.getResultCode() == RESULT_OK) {
+                            Uri resultUri = cropResult.getUri();
+                            setImageCover(resultUri);
+                        } else {
+                            Uri noCropUri = imgUri;
+                            setImageCover(noCropUri);
                         }
                     }
                 });
@@ -167,47 +182,96 @@ public class ProfileFragment extends Fragment {
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == Activity.RESULT_OK) {
+                        if (result.getResultCode() == RESULT_OK) {
                             // There are no request codes
                             if (result.getData() != null) {
                                 Uri uri = result.getData().getData();
-                                binding.imgProfile.setImageURI(uri);
 
-                                //store image in firebase
-                                final StorageReference reference = storage
-                                        .getReference()
-                                        .child("profile_photo")
-                                        .child(FirebaseAuth.getInstance().getUid());
+                                imgUri = uri;
+                                CropImage.activity(uri)
+                                        .start(getContext(), ProfileFragment.this);
 
-                                reference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                    @Override
-                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                        //   PrintMessage.printToastMessage(getContext(), "Cover Photo Saved");
-                                        reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                            @Override
-                                            public void onSuccess(Uri uri) {
-                                                if (uri != null) {
-                                                    database.getReference()
-                                                            .child("Users")
-                                                            .child(auth.getUid())
-                                                            .child("profilePhoto")
-                                                            .setValue(uri.toString());
-                                                }
-                                            }
-                                        });
-                                    }
-                                });
+                            }
+                        } else if (result.getResultCode() == RESULT_OK && result.getResultCode() == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+                            CropImage.ActivityResult cropResult = CropImage.getActivityResult(result.getData());
+                            if (result.getResultCode() == RESULT_OK) {
+                                Uri resultUri = cropResult.getUri();
+                                setProfileImage(resultUri);
+                            } else {
+                                Uri noCropUri = imgUri;
+                                setProfileImage(noCropUri);
                             }
                         }
                     }
                 });
+
     }
+
+    private void setImageCover(Uri uri) {
+        binding.imgCover.setImageURI(uri);
+
+        //store image in firebase
+        final StorageReference reference = storage
+                .getReference()
+                .child("cover_photo")
+                .child(FirebaseAuth.getInstance().getUid());
+
+        reference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                //   PrintMessage.printToastMessage(getContext(), "Cover Photo Saved");
+                reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        if (uri != null) {
+                            database.getReference()
+                                    .child("Users")
+                                    .child(auth.getUid())
+                                    .child("coverPhoto")
+                                    .setValue(uri.toString());
+
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    private void setProfileImage(Uri uri) {
+        binding.imgProfile.setImageURI(uri);
+
+        //store image in firebase
+        final StorageReference reference = storage
+                .getReference()
+                .child("profile_photo")
+                .child(FirebaseAuth.getInstance().getUid());
+
+        reference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                //   PrintMessage.printToastMessage(getContext(), "Cover Photo Saved");
+                reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        if (uri != null) {
+                            database.getReference()
+                                    .child("Users")
+                                    .child(auth.getUid())
+                                    .child("profilePhoto")
+                                    .setValue(uri.toString());
+                        }
+                    }
+                });
+            }
+        });
+    }
+
     private void fetchImageFromFirebase() {
         database.getReference().child("Users").child(auth.getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()){
+                        if (snapshot.exists()) {
 
                             User user = snapshot.getValue(User.class);
                             Glide.with(getContext().getApplicationContext())
@@ -222,7 +286,7 @@ public class ProfileFragment extends Fragment {
 
                             binding.txtUserName.setText(user.getName());
                             binding.txtProfession.setText(user.getProfession());
-
+                            binding.txtFollowers.setText(String.valueOf(user.getFollowerCount()));
                         }
                     }
 
@@ -232,6 +296,7 @@ public class ProfileFragment extends Fragment {
                     }
                 });
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

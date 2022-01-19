@@ -7,14 +7,17 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.abhi41.socialmediaapp.R;
 import com.abhi41.socialmediaapp.adapter.UserAdapter;
 import com.abhi41.socialmediaapp.databinding.FragmentSearchBinding;
 import com.abhi41.socialmediaapp.model.User;
+import com.abhi41.socialmediaapp.untils.PrintMessage;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,7 +29,7 @@ import java.util.List;
 
 
 public class SearchFragment extends Fragment {
-
+    private static final String TAG = "SearchFragment";
     private FragmentSearchBinding binding;
     private List<User> userList = new ArrayList<>();
     private FirebaseAuth auth;
@@ -70,18 +73,28 @@ public class SearchFragment extends Fragment {
                             for (DataSnapshot dataSnapshot : snapshot.getChildren())
                             {
                                 User user = dataSnapshot.getValue(User.class);
-                                if (user != null){
+                                if (user == null){
                                     return;
                                 }
                                 user.setUserId(dataSnapshot.getKey());
-                                userList.add(user);
+
+                                //this condition we used because we don't want see own user in follower
+                                //screen
+
+                                if (!dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid()))
+                                {
+                                    userList.add(user);
+                                }
+
+
+                                Log.d(TAG, "userList: "+user.toString());
                             }
                             adapter.notifyDataSetChanged();
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-
+                            PrintMessage.printToastMessage(getContext(),error.getMessage());
                         }
                     });
     }

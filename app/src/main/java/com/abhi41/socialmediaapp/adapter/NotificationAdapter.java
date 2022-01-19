@@ -1,28 +1,39 @@
 package com.abhi41.socialmediaapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.abhi41.socialmediaapp.CommentScreen;
 import com.abhi41.socialmediaapp.R;
-import com.abhi41.socialmediaapp.model.NotificationModel;
+
+import com.abhi41.socialmediaapp.databinding.SingleNotificationsSampleBinding;
+import com.abhi41.socialmediaapp.model.Notification;
+import com.abhi41.socialmediaapp.model.User;
+import com.bumptech.glide.Glide;
+import com.github.marlonlom.utilities.timeago.TimeAgo;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
 
-    private ArrayList<NotificationModel> notificationList;
+    private ArrayList<Notification> notificationList;
     private Context context;
 
-    public NotificationAdapter(ArrayList<NotificationModel> notificationList, Context context) {
+    public NotificationAdapter(ArrayList<Notification> notificationList, Context context) {
         this.notificationList = notificationList;
         this.context = context;
     }
@@ -38,11 +49,62 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     @Override
     public void onBindViewHolder(@NonNull NotificationAdapter.ViewHolder holder, int position) {
-        NotificationModel model = notificationList.get(position);
-        holder.imgProfile.setImageResource(model.getProfile());
-        //to mention adapter that we use html tags in notification
-        holder.txtNotification.setText(Html.fromHtml(model.getStrNotification()));
-        holder.txtTime.setText(model.getStrTime());
+        Notification model = notificationList.get(position);
+        holder.binding.openNotification.setBackgroundColor(context.getResources().getColor(R.color.grey_very_light));
+        String type = model.getType();
+        FirebaseDatabase.getInstance().getReference()
+                .child("Users")
+                .child(model.getNotificationBy())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User user = snapshot.getValue(User.class);
+                        Glide.with(context)
+                                .load(user.getProfilePhoto())
+                                .placeholder(R.drawable.placeholder)
+                                .into(holder.binding.imgProfile);
+                            if (type.equals("like"))
+                            {
+                                holder.binding.txtNotification.setText(
+                                        Html.fromHtml("</b>"+user.getName()+ "</b>"+" liked your post")
+                                );
+
+                            }else if (type.equals("comment")){
+                                holder.binding.txtNotification.setText(
+                                        Html.fromHtml("</b>"+user.getName()+ "</b>"+" commented on your post")
+                                );
+
+                            }else {
+                                holder.binding.txtNotification.setText(
+                                        Html.fromHtml("</b>"+user.getName()+ "</b>"+" start following your post")
+                                );
+
+                            }
+
+                            holder.binding.txtTime.setText(TimeAgo.using(model.getNotificationAt()));
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+        holder.binding.openNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!type.equals("follow")){
+                    holder.binding.openNotification.setBackgroundColor(context.getResources().getColor(R.color.white));
+                    Intent intent = new Intent(context, CommentScreen.class);
+                    intent.putExtra("postId",model.getPostId());
+                    intent.putExtra("postedBy",model.getPostBy());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+
+            }
+        });
     }
 
     @Override
@@ -55,16 +117,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView imgProfile;
-        private TextView txtNotification,txtTime;
-
+        SingleNotificationsSampleBinding binding;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imgProfile = itemView.findViewById(R.id.imgProfile);
-            txtNotification = itemView.findViewById(R.id.txtNotification);
-            txtTime = itemView.findViewById(R.id.txtTime);
+            binding = SingleNotificationsSampleBinding.bind(itemView);
         }
     }
 }

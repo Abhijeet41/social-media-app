@@ -228,7 +228,7 @@
                     diagonal:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView10"
+                    android:id="@+id/txtFollowers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="4685"

@@ -109,9 +109,10 @@
                                 tools:ignore="MissingConstraints" />
 
                             <com.makeramen.roundedimageview.RoundedImageView
-                                android:id="@+id/view5"
+                                android:id="@+id/addStoryImg"
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
+                                android:scaleType="centerCrop"
                                 android:background="@color/black_shade"
                                 app:layout_constraintBottom_toBottomOf="@+id/imgPostImage"
                                 app:layout_constraintEnd_toEndOf="@+id/imgPostImage"
@@ -183,19 +184,25 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
 
-                <androidx.recyclerview.widget.RecyclerView
+                <com.cooltechworks.views.shimmer.ShimmerRecyclerView
                     android:id="@+id/rv_dashboard"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="@dimen/_5mdp"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view8" />
+                    app:layout_constraintTop_toBottomOf="@+id/view8"
+                    app:shimmer_demo_child_count="8"
+                    app:shimmer_demo_angle="20"
+                    app:shimmer_demo_shimmer_color="@color/grey_light"
+                    app:shimmer_demo_layout="@layout/demo_post"
+                    />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -33,7 +33,7 @@
         app:layout_constraintVertical_bias="0.23000002" />
 
     <TextView
-        android:id="@+id/txtAbout"
+        android:id="@+id/txtBio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Travler,Life Lover"
@@ -75,19 +75,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imgPostImage"
         app:srcCompat="@drawable/ic_outline_bookmark_border_24" />
+    <TextView
+        android:id="@+id/txtPostDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:visibility="gone"
+        android:layout_marginBottom="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/txtLike"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgPostImage" />
+
 
     <TextView
         android:id="@+id/txtLike"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:drawableLeft="@drawable/ic_black_favorite_border_24"
         android:drawablePadding="10dp"
         android:gravity="center"
         android:text="354"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgPostImage" />
+        app:layout_constraintTop_toBottomOf="@+id/txtPostDescription" />
 
     <TextView
         android:id="@+id/txtComment"
@@ -112,7 +126,6 @@
         android:text="54"
         app:layout_constraintStart_toEndOf="@+id/txtComment"
         app:layout_constraintTop_toTopOf="@+id/txtLike" />
-
 
 
 

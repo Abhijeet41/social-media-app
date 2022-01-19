@@ -76,4 +76,18 @@ public class User {
     public void setFollowerCount(int followerCount) {
         this.followerCount = followerCount;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", profession='" + profession + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", coverPhoto='" + coverPhoto + '\'' +
+                ", profilePhoto='" + profilePhoto + '\'' +
+                ", userId='" + userId + '\'' +
+                ", followerCount=" + followerCount +
+                '}';
+    }
 }

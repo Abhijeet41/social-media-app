@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
 }
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdk 30
@@ -32,6 +33,7 @@ android {
     buildFeatures {
         viewBinding true
     }
+
 }
 
 dependencies {
@@ -40,6 +42,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    implementation(name:'android-image-cropper-2.8.0', ext:'aar')
 
     // Circle Image View
     implementation 'de.hdodenhof:circleimageview:3.1.0'
@@ -61,10 +65,33 @@ dependencies {
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.google.firebase:firebase-core:9.6.1'
     implementation 'com.google.firebase:firebase-storage'
-
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
     //glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+
+    implementation 'com.scottyab:rootbeer-lib:0.1.0'
+    implementation 'com.google.android.gms:play-services-safetynet:18.0.0'
+    implementation 'com.android.volley:volley:1.2.1'
+
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
+
+    implementation 'com.github.iammert:TileProgressView:0.1'
+    implementation 'com.github.marlonlom:timeago:4.0.3'
+    implementation 'com.github.3llomi:CircularStatusView:V1.0.2'
+
+    implementation 'com.google.code.gson:gson:2.8.9'
+
+    //story view
+    implementation 'com.github.OMARIHAMZA:StoryView:1.0.2-alpha'
+
+    //shimmer effect
+    implementation 'com.github.sharish:ShimmerRecyclerView:v1.3'
+
+    //crop image
+
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

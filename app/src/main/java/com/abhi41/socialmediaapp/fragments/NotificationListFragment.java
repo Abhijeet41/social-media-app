@@ -13,17 +13,23 @@ import android.view.ViewGroup;
 import com.abhi41.socialmediaapp.R;
 import com.abhi41.socialmediaapp.adapter.NotificationAdapter;
 import com.abhi41.socialmediaapp.databinding.FragmentNotificationListBinding;
-import com.abhi41.socialmediaapp.model.NotificationModel;
+import com.abhi41.socialmediaapp.model.Notification;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class NotificationListFragment extends Fragment {
 
     FragmentNotificationListBinding binding;
-    ArrayList<NotificationModel> notificationList;
+    ArrayList<Notification> notificationList;
     NotificationAdapter adapter;
+
+    FirebaseDatabase database;
     public NotificationListFragment() {
         // Required empty public constructor
     }
@@ -33,6 +39,7 @@ public class NotificationListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        database = FirebaseDatabase.getInstance();
     }
 
     @Override
@@ -49,35 +56,60 @@ public class NotificationListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getListOfNotification();
+        getListOfDummyNotification();
+        getListOfNotification(); //from firebase
         adapter = new NotificationAdapter(notificationList,getContext());
         binding.rvNotification.setAdapter(adapter);
     }
 
+    private void getListOfNotification() {
+            database.getReference()
+                    .child("notification")
+                    .child(FirebaseAuth.getInstance().getUid())
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            notificationList.clear();
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                Notification notification = dataSnapshot.getValue(Notification.class);
+                                notification.setNotificationId(dataSnapshot.getKey());
+                                notificationList.add(notification);
+                            }
+                            adapter.notifyDataSetChanged();
+                        }
 
-    private void getListOfNotification(){
-        notificationList = new ArrayList<>();
-        notificationList.add(new NotificationModel(R.drawable.rose_byrne,"<b>Rose byrne</b> menstion you in comment : try again",
-                "Just Now"));
-        notificationList.add(new NotificationModel(R.drawable.natalie,"<b>Natalie</b> menstion you in comment : try again",
-                "30 mins ago"));
-        notificationList.add(new NotificationModel(R.drawable.kristen,"<b>Kristen</b> menstion you in comment : try again",
-                "2 hours"));
-        notificationList.add(new NotificationModel(R.drawable.angelina,"<b>Angelina</b> menstion you in comment : try again",
-                "3 hours"));
-        notificationList.add(new NotificationModel(R.drawable.alexandra,"<b>Alexandra</b> menstion you in comment : try again",
-                "6 hours"));
-        notificationList.add(new NotificationModel(R.drawable.rebecca,"<b>Rebecca</b> menstion you in comment : try again",
-                "9 hours"));
-        notificationList.add(new NotificationModel(R.drawable.emma,"<b>Emma</b> menstion you in comment : try again",
-                "2 days ago"));
-        notificationList.add(new NotificationModel(R.drawable.monica,"<b>Monica</b> menstion you in comment : try again",
-                "6 days ago"));
-        notificationList.add(new NotificationModel(R.drawable.cruise,"<b>Cruise</b> menstion you in comment : try again",
-                "9 days ago"));
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
     }
 
-    @Override
+
+    private void getListOfDummyNotification(){
+        notificationList = new ArrayList<>();
+    /*
+        notificationList.add(new Notification(R.drawable.rose_byrne,"<b>Rose byrne</b> menstion you in comment : try again",
+                "Just Now"));
+        notificationList.add(new Notification(R.drawable.natalie,"<b>Natalie</b> menstion you in comment : try again",
+                "30 mins ago"));
+        notificationList.add(new Notification(R.drawable.kristen,"<b>Kristen</b> menstion you in comment : try again",
+                "2 hours"));
+        notificationList.add(new Notification(R.drawable.angelina,"<b>Angelina</b> menstion you in comment : try again",
+                "3 hours"));
+        notificationList.add(new Notification(R.drawable.alexandra,"<b>Alexandra</b> menstion you in comment : try again",
+                "6 hours"));
+        notificationList.add(new Notification(R.drawable.rebecca,"<b>Rebecca</b> menstion you in comment : try again",
+                "9 hours"));
+        notificationList.add(new Notification(R.drawable.emma,"<b>Emma</b> menstion you in comment : try again",
+                "2 days ago"));
+        notificationList.add(new Notification(R.drawable.monica,"<b>Monica</b> menstion you in comment : try again",
+                "6 days ago"));
+        notificationList.add(new Notification(R.drawable.cruise,"<b>Cruise</b> menstion you in comment : try again",
+                "9 days ago"));*/
+    }
+
+/*    @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         if (notificationList != null){
             outState.putParcelableArrayList("notificationList",notificationList);
@@ -96,7 +128,7 @@ public class NotificationListFragment extends Fragment {
             binding.rvNotification.setAdapter(adapter);
         }
 
-    }
+    }*/
 
     @Override
     public void onResume() {

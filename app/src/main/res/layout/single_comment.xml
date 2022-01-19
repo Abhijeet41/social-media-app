@@ -1,47 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/openNotification"
-    android:background="@drawable/follow_active_btn"
-    android:backgroundTint="#1D7C7B7B"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgProfile"
-        android:layout_width="@dimen/_50mdp"
-        android:layout_height="@dimen/_50mdp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="671dp"
-        android:padding="5dp"
-        android:src="@drawable/profile_user"
-        app:civ_border_color="@color/black"
-        app:civ_border_width="3dp"
+        android:layout_width="@dimen/_45mdp"
+        android:layout_height="@dimen/_45mdp"
+        android:layout_margin="5dp"
+        android:src="@drawable/emma"
+        app:civ_border_color="@color/white"
+        app:civ_border_width="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txtNotification"
+        android:id="@+id/txtComment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="Abhijeet Mule"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
         android:textColor="@color/black"
-        android:textSize="@dimen/_14mdp"
-        app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imgProfile"
         app:layout_constraintTop_toTopOf="@+id/imgProfile"
-        app:layout_constraintVertical_bias="0.26999998" />
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
         android:id="@+id/txtTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:text="TextView"
-        app:layout_constraintStart_toStartOf="@+id/txtNotification"
-        app:layout_constraintTop_toBottomOf="@+id/txtNotification" />
-
+        app:layout_constraintStart_toStartOf="@+id/txtComment"
+        app:layout_constraintTop_toBottomOf="@+id/txtComment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

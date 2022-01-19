@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    >
 
     <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/imgPostImage"
+        android:id="@+id/imgStory"
         android:layout_width="@dimen/_120mdp"
         android:layout_height="@dimen/_85mdp"
         android:layout_marginStart="16dp"
         android:scaleType="fitXY"
-        android:src="@drawable/child_image"
+        android:src="@drawable/alexandra"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:riv_corner_radius="10dip"
@@ -19,37 +21,58 @@
         tools:ignore="MissingConstraints" />
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgProfile"
-        android:layout_width="@dimen/_30mdp"
-        android:layout_height="@dimen/_30mdp"
-        android:layout_margin="5dp"
-        android:src="@drawable/profile_user"
-        app:civ_border_color="@color/white"
-        app:civ_border_width="3dp"
+    <RelativeLayout
+        android:id="@+id/image_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10mdp"
+        android:layout_marginLeft="@dimen/_3mdp"
         app:layout_constraintBottom_toBottomOf="@+id/imgStoryType"
-        app:layout_constraintStart_toStartOf="@+id/imgPostImage"
-        app:layout_constraintTop_toTopOf="@+id/imgPostImage" />
+        app:layout_constraintStart_toStartOf="@+id/imgStory"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgAddStory"
+            android:layout_width="@dimen/_30mdp"
+            android:layout_height="@dimen/_30mdp"
+            android:layout_marginTop="5dp"
+            android:layout_centerInParent="true"
+            android:padding="6dp"
+            android:src="@drawable/angelina" />
+
+        <com.devlomi.circularstatusview.CircularStatusView
+            android:id="@+id/statusCircle"
+            android:layout_width="@dimen/_32mdp"
+            android:layout_height="@dimen/_32mdp"
+            android:layout_centerInParent="true"
+            app:portion_color="@color/white"
+            app:portion_spacing="5dp"
+            app:portion_width="2dp"
+             />
+
+
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/imgStoryType"
         android:layout_width="@dimen/_30mdp"
         android:layout_height="@dimen/_20mdp"
         android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toEndOf="@+id/imgPostImage"
-        app:layout_constraintTop_toTopOf="@+id/imgPostImage"
+        app:layout_constraintEnd_toEndOf="@+id/imgStory"
+        app:layout_constraintTop_toTopOf="@+id/imgStory"
         app:srcCompat="@drawable/ic_live" />
 
     <TextView
         android:id="@+id/txtName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
         android:layout_marginBottom="8dp"
         android:text="M.Amin"
         android:textColor="@color/white"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imgPostImage"
-        app:layout_constraintStart_toStartOf="@+id/imgProfile" />
+        app:layout_constraintBottom_toBottomOf="@+id/imgStory"
+        app:layout_constraintStart_toStartOf="@+id/image_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
