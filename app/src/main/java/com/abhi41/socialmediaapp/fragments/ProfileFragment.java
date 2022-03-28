@@ -2,13 +2,13 @@ package com.abhi41.socialmediaapp.fragments;
 
 import static android.app.Activity.RESULT_OK;
 
-import android.app.Activity;
+
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -25,7 +25,7 @@ import com.abhi41.socialmediaapp.model.FollowModel;
 import com.abhi41.socialmediaapp.model.User;
 import com.abhi41.socialmediaapp.untils.PrintMessage;
 import com.bumptech.glide.Glide;
-
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -35,11 +35,16 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
+
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+import kotlin.jvm.internal.Intrinsics;
 
 
 public class ProfileFragment extends Fragment {
@@ -144,11 +149,22 @@ public class ProfileFragment extends Fragment {
     private void getImage(ActivityResultLauncher<Intent> resultLauncher) {
 
 
-        Intent intent = new Intent();
+        /*Intent intent = new Intent();
         intent.setAction(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        resultLauncher.launch(intent);
-
+        resultLauncher.launch(intent);*/
+        ImagePicker.Builder with = ImagePicker.with(this);
+        with.crop();
+        with.galleryOnly();
+        with.compress(1024);
+        with.maxResultSize(1080, 1080);
+        with.createIntent(new Function1<Intent, Unit>() {
+            @Override
+            public Unit invoke(Intent Intent) {
+                resultLauncher.launch(Intent );
+                return null;
+            }
+        });
     }
 
 
@@ -158,50 +174,23 @@ public class ProfileFragment extends Fragment {
                 result -> {
                     if (result.getResultCode() == RESULT_OK) {
                         // There are no request codes
-                        if (result.getData() != null) {
-                            Uri uri = result.getData().getData();
-                            imgUri = uri;
-                            CropImage.activity(uri)
-                                    .setGuidelines(CropImageView.Guidelines.ON)
-                                    .start(getContext(), ProfileFragment.this);
 
-                        }
-                    } else if (result.getResultCode() == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                        CropImage.ActivityResult cropResult = CropImage.getActivityResult(result.getData());
-                        if (result.getResultCode() == RESULT_OK) {
-                            Uri resultUri = cropResult.getUri();
-                            setImageCover(resultUri);
-                        } else {
-                            Uri noCropUri = imgUri;
-                            setImageCover(noCropUri);
-                        }
+                        Uri uri = result.getData().getData();
+                        imgUri = uri;
+
+                        setImageCover(imgUri);
                     }
                 });
 
         activityResultProfileImage = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == RESULT_OK) {
-                            // There are no request codes
-                            if (result.getData() != null) {
-                                Uri uri = result.getData().getData();
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        // There are no request codes
 
-                                imgUri = uri;
-                                CropImage.activity(uri)
-                                        .start(getContext(), ProfileFragment.this);
+                        Uri uri = result.getData().getData();
+                        imgUri = uri;
 
-                            }
-                        } else if (result.getResultCode() == RESULT_OK && result.getResultCode() == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                            CropImage.ActivityResult cropResult = CropImage.getActivityResult(result.getData());
-                            if (result.getResultCode() == RESULT_OK) {
-                                Uri resultUri = cropResult.getUri();
-                                setProfileImage(resultUri);
-                            } else {
-                                Uri noCropUri = imgUri;
-                                setProfileImage(noCropUri);
-                            }
-                        }
+                        setProfileImage(imgUri);
                     }
                 });
 

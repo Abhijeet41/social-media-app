@@ -9,11 +9,18 @@ android {
     defaultConfig {
         applicationId "com.abhi41.socialmediaapp"
         minSdk 21
-        targetSdk 30
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        configurations.all {
+            resolutionStrategy { force 'androidx.core:core-ktx:1.6.0' }
+
+            exclude group: 'androidx.lifecycle', module: 'lifecycle-viewmodel-ktx'
+
+        }
     }
 
     buildTypes {
@@ -25,6 +32,9 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     dataBinding {
@@ -36,6 +46,7 @@ android {
 
 }
 
+
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.3.1'
@@ -43,7 +54,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    implementation(name:'android-image-cropper-2.8.0', ext:'aar')
 
     // Circle Image View
     implementation 'de.hdodenhof:circleimageview:3.1.0'
@@ -91,8 +101,8 @@ dependencies {
     implementation 'com.github.sharish:ShimmerRecyclerView:v1.3'
 
     //crop image
-
-
+    implementation 'com.github.dhaval2404:imagepicker:2.1'
+    implementation 'com.github.Drjacky:ImagePicker:2.1.15'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
