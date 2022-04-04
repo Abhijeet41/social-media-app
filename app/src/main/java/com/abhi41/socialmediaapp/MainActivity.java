@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -26,6 +27,7 @@ import com.abhi41.socialmediaapp.fragments.NotificationFragment;
 import com.abhi41.socialmediaapp.fragments.ProfileFragment;
 import com.abhi41.socialmediaapp.fragments.SearchFragment;
 import com.abhi41.socialmediaapp.model.JWSRequest;
+import com.abhi41.socialmediaapp.untils.Zipper;
 import com.abhi41.socialmediaapp.viewmodel.DashBoardViewModel;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.safetynet.SafetyNet;
@@ -35,6 +37,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.scottyab.rootbeer.RootBeer;
 
+import java.io.File;
 import java.security.SecureRandom;
 import java.sql.Time;
 
@@ -56,6 +59,16 @@ public class MainActivity extends AppCompatActivity {
         setBottomNavigation();
       //  check_device_rooted();
         setObserver();
+
+      /*  try {
+            File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            File f = new File(dir, "/"+"Indeed.html");
+            String path = f.getAbsolutePath();
+            Zipper zipper = new Zipper("password");
+            zipper.pack(path,dir);
+        } catch (java.util.zip.ZipException e) {
+            e.printStackTrace();
+        }*/
         
     }
 
