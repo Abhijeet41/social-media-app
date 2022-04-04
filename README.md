@@ -1,45 +1,15 @@
-**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**
+The Social Media App with firebase
 
-When you're done, you can delete the content in this README and update the file with details for others getting started with your repository.
 
-*We recommend that you open this README in another tab as you perform the tasks below. You can [watch our video](https://youtu.be/0ocf7u76WSo) for a full demo of all the steps in this tutorial. Open the video in a new tab to avoid leaving Bitbucket.*
+![Screenshot_20220404_184218](https://user-images.githubusercontent.com/45313305/161552331-93e3b362-b86f-42ae-b405-31b797a46f3d.jpg)
 
----
+![Screenshot_20220404_184229](https://user-images.githubusercontent.com/45313305/161552380-193f9ea0-4380-411f-9419-14a5794562c5.jpg)
 
-## Edit a file
+![Screenshot_20220404_184240](https://user-images.githubusercontent.com/45313305/161552409-c4277694-52e2-4625-8337-4f85d2c78838.jpg)
 
-You’ll start by editing this README file to learn how to edit a file in Bitbucket.
+![Screenshot_20220404_184245](https://user-images.githubusercontent.com/45313305/161552444-616098da-1cb0-44b1-8e48-bca634adb765.jpg)
 
-1. Click **Source** on the left side.
-2. Click the README.md link from the list of files.
-3. Click the **Edit** button.
-4. Delete the following text: *Delete this line to make a change to the README from Bitbucket.*
-5. After making your change, click **Commit** and then **Commit** again in the dialog. The commit page will open and you’ll see the change you just made.
-6. Go back to the **Source** page.
+![Screenshot_20220404_184259](https://user-images.githubusercontent.com/45313305/161552551-bb89477c-3240-45cc-8b30-74c476893b84.jpg)
 
----
+![Screenshot_20220404_184357](https://user-images.githubusercontent.com/45313305/161552562-6623b4a0-83c2-4bd4-8a1c-fa1d4688b1e5.jpg)
 
-## Create a file
-
-Next, you’ll add a new file to this repository.
-
-1. Click the **New file** button at the top of the **Source** page.
-2. Give the file a filename of **contributors.txt**.
-3. Enter your name in the empty file space.
-4. Click **Commit** and then **Commit** again in the dialog.
-5. Go back to the **Source** page.
-
-Before you move on, go ahead and explore the repository. You've already seen the **Source** page, but check out the **Commits**, **Branches**, and **Settings** pages.
-
----
-
-## Clone a repository
-
-Use these steps to clone from SourceTree, our client for using the repository command-line free. Cloning allows you to work on your files locally. If you don't yet have SourceTree, [download and install first](https://www.sourcetreeapp.com/). If you prefer to clone from the command line, see [Clone a repository](https://confluence.atlassian.com/x/4whODQ).
-
-1. You’ll see the clone button under the **Source** heading. Click that button.
-2. Now click **Check out in SourceTree**. You may need to create a SourceTree account or log in.
-3. When you see the **Clone New** dialog in SourceTree, update the destination path and name if you’d like to and then click **Clone**.
-4. Open the directory you just created to see your repository’s files.
-
-Now that you're more familiar with your Bitbucket repository, go ahead and add a new file locally. You can [push your change back to Bitbucket with SourceTree](https://confluence.atlassian.com/x/iqyBMg), or you can [add, commit,](https://confluence.atlassian.com/x/8QhODQ) and [push from the command line](https://confluence.atlassian.com/x/NQ0zDQ).
